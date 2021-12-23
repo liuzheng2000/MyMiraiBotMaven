@@ -17,7 +17,7 @@ public class MiraiBotTest {
     public static String Dir = new ReadProperties().loadResources().get("WorkingDir");
 
     public static void main(String[] args) {
-        Bot MiraiBot = BotFactory.INSTANCE.newBot(Long.parseLong("2582169579"), "qingyun2000", new BotConfiguration() {{
+        Bot MiraiBot = BotFactory.INSTANCE.newBot(Long.parseLong("--"), "--", new BotConfiguration() {{
             //加载登录协议
             setHeartbeatStrategy(HeartbeatStrategy.STAT_HB);
 //            修改缓存配置
