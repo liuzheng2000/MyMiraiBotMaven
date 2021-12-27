@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PictureVo {
 
+
+    public String ImagePictureUrl;
+
     public String pictureUrl;
 
     public String Similarity;
@@ -25,7 +28,8 @@ public class PictureVo {
     @Override
     public String toString() {
         return "PictureVo{" +
-                "pictureUrl='" + pictureUrl + '\'' +
+                "ImagePictureUrl='" + ImagePictureUrl + '\'' +
+                ", pictureUrl='" + pictureUrl + '\'' +
                 ", Similarity='" + Similarity + '\'' +
                 ", Creator='" + Creator + '\'' +
                 ", sourced='" + sourced + '\'' +

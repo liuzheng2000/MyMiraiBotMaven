@@ -40,7 +40,7 @@ public class LoliconGson {
      * @param PictureHtml
      * @return
      */
-    public PictureVo  GetPictureHtmlInfoToPictureVo(String PictureHtml){
+    public PictureVo  GetPictureHtmlInfoToPictureVo(String ImagePicture,String PictureHtml){
         PictureVo pictureVo = new PictureVo();
         if (PictureHtml != null){
             Document parse = Jsoup.parse(PictureHtml);
@@ -48,6 +48,7 @@ public class LoliconGson {
             //图片地址
 
             if (firstresulttable != null){
+                pictureVo.setImagePictureUrl(ImagePicture);
                 //图片地址
                 Element element = firstresulttable.selectFirst("img#resImage0");
                 String picture = element.attr("src");

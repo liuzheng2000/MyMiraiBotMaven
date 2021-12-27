@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.qingyun.Mapper.Lolicon.PictureMapper">
+
+    <insert id="InsertPictureVO" parameterType="edu.qingyun.lolicon.vo.PictureVo">
+        INSERT INTO picture_vo(ImagePictureUrl,pictureurl,similarity,creator,sourced) VALUES(#{ImagePictureUrl},#{pictureUrl},#{similarity},#{creator},#{sourced});
+    </insert>
+
+
+    <select id="selectPicture" resultType="edu.qingyun.lolicon.vo.PictureVo">
+        select * from picture_vo where ImagePictureUrl = #{ImagePictureUrl};
+    </select>
+
+</mapper>

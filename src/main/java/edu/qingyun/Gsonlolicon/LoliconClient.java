@@ -4,10 +4,13 @@ import com.google.gson.Gson;
 import edu.qingyun.GsonConfig.Lolicon.LoliconGson;
 import edu.qingyun.HttpUtils.HttpUtilsClient;
 import edu.qingyun.Listener.GroupLoliconListener;
+import edu.qingyun.Mapper.Lolicon.PictureMapper;
+import edu.qingyun.Mapper.MapperFacture;
 import edu.qingyun.Utils.QingYunUtils;
 import edu.qingyun.lolicon.LoliconPostInfoVo;
 import edu.qingyun.lolicon.vo.PictureVo;
 import edu.qingyun.redisConfig.RedisUtils;
+import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +100,19 @@ public class LoliconClient {
      * @return
      */
     public Object  GetPictureInfo(String PictureUrl){
+        //进行数据库判断
+        try (SqlSession session = MapperFacture.sqlSessionFactory.openSession()) {
+            // 你的应用逻辑代码
+            PictureMapper mapper = session.getMapper(PictureMapper.class);
+            PictureVo pictureVo = mapper.selectPicture(PictureUrl);
+            session.commit();
+            if (pictureVo != null){
+                return pictureVo;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         HashMap<String, String> pictureUrlMap = new HashMap<>();
         pictureUrlMap.put("url",PictureUrl);
         HttpUtilsClient httpUtilsClient = new HttpUtilsClient();
@@ -105,7 +121,15 @@ public class LoliconClient {
         // 进行页面解析
         if (returnHtml!=null){
             LoliconGson loliconGson = new LoliconGson();
-            PictureVo pictureVo = loliconGson.GetPictureHtmlInfoToPictureVo(returnHtml);
+            PictureVo pictureVo = loliconGson.GetPictureHtmlInfoToPictureVo(PictureUrl,returnHtml);
+            try (SqlSession session = MapperFacture.sqlSessionFactory.openSession()) {
+                // 你的应用逻辑代码
+                PictureMapper mapper = session.getMapper(PictureMapper.class);
+                mapper.InsertPictureVO(pictureVo);
+                session.commit();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             return pictureVo;
         }
         return "页面出现问题";
